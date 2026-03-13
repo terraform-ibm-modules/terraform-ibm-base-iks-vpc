@@ -4,16 +4,13 @@
 <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=base-iks-vpc-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-base-iks-vpc/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom;"></a>
 <!-- END SCHEMATICS DEPLOY HOOK -->
 
+A simple example that shows how to provision a basic single zone IKS VPC cluster. Also the outbound traffic is allowed, which is required for accessing the Operator Hub.
 
-<!--
-The basic example should call the module(s) stored in this repository with a basic configuration.
-Note, there is a pre-commit hook that will take the title of each example and include it in the repos main README.md.
-The text below should describe exactly what resources are provisioned / configured by the example.
--->
+The following resources are provisioned by this example:
 
-An end-to-end basic example that will provision the following:
-- A new resource group if one is not passed in.
-- A new standard plan Cloud Object Storage instance using the root level module.
+- A new resource group, if an existing one is not passed in.
+- A basic VPC and subnet with public gateway enabled.
+- A single zone IKS VPC cluster.
 
 <!-- BEGIN SCHEMATICS DEPLOY TIP HOOK -->
 :information_source: Ctrl/Cmd+Click or right-click on the Schematics deploy button to open in a new tab
