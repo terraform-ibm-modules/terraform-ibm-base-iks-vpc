@@ -50,7 +50,7 @@ module "iks_cluster" {
       pool_name        = "default"
       machine_type     = "bx2.8x32"  # New machine type
       workers_per_zone = 2
-      operating_system = "REDHAT_8_64"
+      operating_system = "UBUNTU_24_64"
       subnet_prefix    = "default"
     }
   ]
@@ -113,7 +113,7 @@ module "iks_cluster" {
       pool_name        = "default"
       machine_type     = "bx2.4x16"
       workers_per_zone = 2
-      operating_system = "REDHAT_8_64"
+      operating_system = "UBUNTU_24_64"
       subnet_prefix    = "default"
       labels = {
         "pool" = "default"
@@ -123,7 +123,7 @@ module "iks_cluster" {
       pool_name        = "compute"
       machine_type     = "bx2.8x32"
       workers_per_zone = 3
-      operating_system = "REDHAT_8_64"
+      operating_system = "UBUNTU_24_64"
       subnet_prefix    = "default"
       labels = {
         "pool"     = "compute"
