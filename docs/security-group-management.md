@@ -68,7 +68,7 @@ worker_pools = [
     pool_name                     = "default"
     machine_type                  = "bx2.4x16"
     workers_per_zone              = 2
-    operating_system              = "REDHAT_8_64"
+    operating_system              = "UBUNTU_24_64"
     subnet_prefix                 = "default"
     additional_security_group_ids = [
       "r006-aaaa-aaaa-aaaa-aaaa"  # Additional SG for this pool only
@@ -78,7 +78,7 @@ worker_pools = [
     pool_name                     = "compute"
     machine_type                  = "bx2.8x32"
     workers_per_zone              = 3
-    operating_system              = "REDHAT_8_64"
+    operating_system              = "UBUNTU_24_64"
     subnet_prefix                 = "default"
     additional_security_group_ids = [
       "r006-bbbb-bbbb-bbbb-bbbb"  # Different SG for this pool
@@ -237,7 +237,7 @@ module "iks_cluster" {
       pool_name        = "default"
       machine_type     = "bx2.4x16"
       workers_per_zone = 2
-      operating_system = "REDHAT_8_64"
+      operating_system = "UBUNTU_24_64"
       subnet_prefix    = "default"
       # Pool-specific security group
       additional_security_group_ids = [
@@ -248,7 +248,7 @@ module "iks_cluster" {
       pool_name        = "compute"
       machine_type     = "bx2.8x32"
       workers_per_zone = 3
-      operating_system = "REDHAT_8_64"
+      operating_system = "UBUNTU_24_64"
       subnet_prefix    = "default"
       # Different security group for compute pool
       additional_security_group_ids = [
