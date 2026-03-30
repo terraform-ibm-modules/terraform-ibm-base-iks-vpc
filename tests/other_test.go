@@ -23,7 +23,7 @@ func testRunBasicExample(t *testing.T, version string) {
 
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
-	versions := []string{iksVersion3, iksVersion4}
+	versions := []string{iksVersion1, iksVersion2, iksVersion3, iksVersion4}
 	for _, version := range versions {
 		t.Run(version, func(t *testing.T) { testRunBasicExample(t, version) })
 	}
