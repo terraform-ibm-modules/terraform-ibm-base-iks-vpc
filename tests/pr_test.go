@@ -125,6 +125,11 @@ func setupOptions(t *testing.T, prefix string, terraformDir string, iksVersion s
 				"module.logs_agents.helm_release.logs_agent",
 			},
 		},
+		IgnoreDestroys: testhelper.Exemptions{ // Ignore for consistency check
+			List: []string{
+				"module.logs_agents.terraform_data.install_required_binaries[0]",
+			},
+		},
 		TerraformVars: map[string]interface{}{
 			"kube_version": iksVersion,
 			"access_tags":  permanentResources["accessTags"],
