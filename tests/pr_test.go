@@ -36,10 +36,13 @@ var (
 	iksVersion4        string // used by TestRunBasicExample
 )
 
+var defaultIksVersion string
+
 // TestMain will be run before any parallel tests, used to set up a shared InfoService object to track region usage
 // for multiple tests
 func TestMain(m *testing.M) {
 	var err error
+	var validiksVersions []string
 	sharedInfoSvc, err = cloudinfo.NewCloudInfoServiceFromEnv("TF_VAR_ibmcloud_api_key", cloudinfo.CloudInfoServiceOptions{})
 	if err != nil {
 		log.Fatal(err)
@@ -52,10 +55,18 @@ func TestMain(m *testing.M) {
 
 	// Get kube versions
 	expectediksVersions := 4
-	validiksVersions, err := sharedInfoSvc.GetKubeVersions("kubernetes")
+	validiksVersions, defaultIksVersion, err = sharedInfoSvc.GetKubeVersions("kubernetes")
 	if err != nil {
 		log.Fatalf("failed to get kube versions: %v", err)
 	}
+	// Remove defaultIksVersion from validiksVersions list
+	filteredVersions := make([]string, 0, len(validiksVersions))
+	for _, version := range validiksVersions {
+		if version != defaultIksVersion {
+			filteredVersions = append(filteredVersions, version)
+		}
+	}
+	validiksVersions = filteredVersions
 	iksVersionCount := len(validiksVersions)
 	if iksVersionCount == 0 {
 		log.Fatal("kubernetes version list is empty")
@@ -74,7 +85,6 @@ func TestMain(m *testing.M) {
 		}
 		*iksVars[i] = validiksVersions[idx]
 	}
-
 	os.Exit(m.Run())
 }
 
@@ -115,6 +125,11 @@ func setupOptions(t *testing.T, prefix string, terraformDir string, iksVersion s
 				"module.logs_agents.helm_release.logs_agent",
 			},
 		},
+		IgnoreDestroys: testhelper.Exemptions{ // Ignore for consistency check
+			List: []string{
+				"module.logs_agents.terraform_data.install_required_binaries[0]",
+			},
+		},
 		TerraformVars: map[string]interface{}{
 			"kube_version": iksVersion,
 			"access_tags":  permanentResources["accessTags"],
@@ -147,7 +162,7 @@ func getClusterIngress(options *testhelper.TestOptions) error {
 func TestRunAdvancedExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "base-iks-adv", advancedExampleDir, iksVersion2)
+	options := setupOptions(t, "base-iks-adv", advancedExampleDir, defaultIksVersion)
 	options.PostApplyHook = getClusterIngress
 	createContainersApikey(t, options.Region, resourceGroup)
 
@@ -161,7 +176,7 @@ func TestRunAdvancedExample(t *testing.T) {
 func TestRunUpgradeExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "base-iks-upg", advancedExampleDir, iksVersion1)
+	options := setupOptions(t, "base-iks-upg", advancedExampleDir, defaultIksVersion)
 	createContainersApikey(t, options.Region, resourceGroup)
 
 	output, err := options.RunTestUpgrade()
