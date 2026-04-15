@@ -228,7 +228,7 @@ locals {
 
 module "cloud_logs" {
   source            = "terraform-ibm-modules/cloud-logs/ibm"
-  version           = "1.12.9"
+  version           = "1.13.0"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   plan              = "standard"
@@ -263,7 +263,7 @@ module "trusted_profile" {
 
 module "logs_agents" {
   source                        = "terraform-ibm-modules/logs-agent/ibm"
-  version                       = "1.20.2"
+  version                       = "1.21.0"
   cluster_id                    = module.iks_base.cluster_id
   cluster_resource_group_id     = module.resource_group.resource_group_id
   logs_agent_trusted_profile_id = module.trusted_profile.trusted_profile.id
