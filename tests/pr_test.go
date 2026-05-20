@@ -3,6 +3,7 @@ package test
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -143,7 +144,7 @@ func setupOptions(t *testing.T, prefix string, terraformDir string, iksVersion s
 func getClusterIngress(options *testhelper.TestOptions) error {
 
 	// Get output of the last apply
-	outputs, outputErr := terraform.OutputAllE(options.Testing, options.TerraformOptions)
+	outputs, outputErr := terraform.OutputAllContextE(options.Testing, context.Background(), options.TerraformOptions)
 	if !assert.NoError(options.Testing, outputErr, "error getting last terraform apply outputs: %s", outputErr) {
 		return nil
 	}
