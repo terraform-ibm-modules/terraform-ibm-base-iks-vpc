@@ -202,13 +202,13 @@ variable "force_delete_storage" {
 
 variable "kms_config" {
   type = object({
-    crk_id           = string               # The ID of the customer root key
-    instance_id      = string               # The GUID of the Key Protect instance
-    private_endpoint = optional(bool, true) # Defaults to true to configure the KMS private service endpoint.
+    crk_id           = string               # ID of the customer root key
+    instance_id      = string               # GUID of the KMS instance
+    private_endpoint = optional(bool, true) # Defaults to true to configure the KMS private service endpoint
     account_id       = optional(string)     # To attach KMS instance from another account
-    wait_for_apply   = optional(bool, true) # Defaults to true so terraform will wait until the KMS is applied to the master
+    wait_for_apply   = optional(bool, true) # Defaults to true so terraform will wait until the KMS is applied to the master, ready and deployed
   })
-  description = "Use to attach a Key Protect instance to the cluster. If account_id is not provided, the current account is used. [Learn more](https://cloud.ibm.com/docs/key-protect?topic=key-protect-provision)"
+  description = "Use to attach a Key Protect or Hyper Protect Crypto Service instance to the cluster. If account_id is not provided, the current account is used. [Learn more](https://cloud.ibm.com/docs/key-protect?topic=key-protect-provision)"
   default     = null
 }
 
@@ -347,7 +347,7 @@ variable "cbr_rules" {
 
 variable "enable_secrets_manager_integration" {
   type        = bool
-  description = "Integrate with IBM Cloud Secrets Manager to dynamically create and retrieve Ingress TLS certificates and other secrets. [Learn more](https://cloud.ibm.com/docs/secrets-manager?topic=secrets-manager-integrations)"
+  description = "Integrate with IBM Cloud Secrets Manager so you can centrally manage Ingress subdomain certificates and other secrets. [Learn more](https://cloud.ibm.com/docs/containers?topic=containers-secrets-mgr)"
   default     = false
   nullable    = false
   validation {
