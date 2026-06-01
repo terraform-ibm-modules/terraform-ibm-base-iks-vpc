@@ -74,6 +74,7 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
   security_groups                     = local.cluster_security_groups
   force_delete_storage                = var.force_delete_storage
   disable_outbound_traffic_protection = var.disable_outbound_traffic_protection
+  disable_public_service_endpoint     = true
 
   lifecycle {
     ignore_changes = [kube_version]
@@ -135,6 +136,7 @@ resource "ibm_container_vpc_cluster" "cluster_with_upgrade" {
   security_groups                     = local.cluster_security_groups
   force_delete_storage                = var.force_delete_storage
   disable_outbound_traffic_protection = var.disable_outbound_traffic_protection
+  disable_public_service_endpoint     = true
 
   # This resource intentionally omits ignore_changes for kube_version to allow major version upgrades
 
@@ -194,6 +196,7 @@ resource "ibm_container_vpc_cluster" "autoscaling_cluster" {
   security_groups                     = local.cluster_security_groups
   force_delete_storage                = var.force_delete_storage
   disable_outbound_traffic_protection = var.disable_outbound_traffic_protection
+  disable_public_service_endpoint     = true
 
   lifecycle {
     ignore_changes = [kube_version, worker_count]
@@ -255,6 +258,7 @@ resource "ibm_container_vpc_cluster" "autoscaling_cluster_with_upgrade" {
   security_groups                     = local.cluster_security_groups
   force_delete_storage                = var.force_delete_storage
   disable_outbound_traffic_protection = var.disable_outbound_traffic_protection
+  disable_public_service_endpoint     = true
 
   lifecycle {
     ignore_changes = [worker_count]
