@@ -63,7 +63,7 @@ resource "ibm_container_vpc_cluster" "iks_cluster" {
   name                                = var.cluster_name
   vpc_id                              = var.vpc_id
   resource_group_id                   = var.resource_group_id
-  tags                                = var.tags
+  tags                                = var.resource_tags
   kube_version                        = local.kube_version
   flavor                              = local.default_pool.machine_type
   worker_count                        = local.default_pool.workers_per_zone
@@ -125,7 +125,7 @@ resource "ibm_container_vpc_cluster" "cluster_with_upgrade" {
   name                                = var.cluster_name
   vpc_id                              = var.vpc_id
   resource_group_id                   = var.resource_group_id
-  tags                                = var.tags
+  tags                                = var.resource_tags
   kube_version                        = local.kube_version
   flavor                              = local.default_pool.machine_type
   worker_count                        = local.default_pool.workers_per_zone
@@ -185,7 +185,7 @@ resource "ibm_container_vpc_cluster" "autoscaling_cluster" {
   name                                = var.cluster_name
   vpc_id                              = var.vpc_id
   resource_group_id                   = var.resource_group_id
-  tags                                = var.tags
+  tags                                = var.resource_tags
   kube_version                        = local.kube_version
   flavor                              = local.default_pool.machine_type
   worker_count                        = local.default_pool.workers_per_zone
@@ -247,7 +247,7 @@ resource "ibm_container_vpc_cluster" "autoscaling_cluster_with_upgrade" {
   name                                = var.cluster_name
   vpc_id                              = var.vpc_id
   resource_group_id                   = var.resource_group_id
-  tags                                = var.tags
+  tags                                = var.resource_tags
   kube_version                        = local.kube_version
   flavor                              = local.default_pool.machine_type
   worker_count                        = local.default_pool.workers_per_zone
@@ -306,8 +306,14 @@ resource "ibm_container_vpc_cluster" "autoscaling_cluster_with_upgrade" {
 # Cluster Access Tag
 ##############################################################################
 
+# Check whether access tags are valid and exist in the account
+data "ibm_iam_access_tag" "access_tags" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : [] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
+  name     = each.value
+}
 
 resource "ibm_resource_tag" "cluster_access_tag" {
+  depends_on  = [data.ibm_iam_access_tag.access_tags] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
   count       = length(var.access_tags) == 0 ? 0 : 1
   resource_id = local.cluster_crn
   tags        = var.access_tags
