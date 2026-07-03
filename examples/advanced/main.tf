@@ -263,7 +263,7 @@ module "trusted_profile" {
 
 module "logs_agents" {
   source                        = "terraform-ibm-modules/logs-agent/ibm"
-  version                       = "1.24.1"
+  version                       = "1.24.2"
   cluster_id                    = module.iks_base.cluster_id
   cluster_resource_group_id     = module.resource_group.resource_group_id
   logs_agent_trusted_profile_id = module.trusted_profile.trusted_profile.id
