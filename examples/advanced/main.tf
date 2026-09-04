@@ -23,7 +23,7 @@ locals {
 
 module "kp_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
-  version                   = "5.6.5"
+  version                   = "5.6.6"
   key_protect_instance_name = "${var.prefix}-kp-instance"
   resource_group_id         = module.resource_group.resource_group_id
   region                    = var.region
@@ -263,7 +263,7 @@ module "trusted_profile" {
 
 module "logs_agents" {
   source                        = "terraform-ibm-modules/logs-agent/ibm"
-  version                       = "1.26.0"
+  version                       = "1.26.1"
   cluster_id                    = module.iks_base.cluster_id
   cluster_resource_group_id     = module.resource_group.resource_group_id
   logs_agent_trusted_profile_id = module.trusted_profile.trusted_profile.id
