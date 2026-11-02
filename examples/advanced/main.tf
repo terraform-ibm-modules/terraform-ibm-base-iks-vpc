@@ -228,7 +228,7 @@ locals {
 
 module "cloud_logs" {
   source            = "terraform-ibm-modules/cloud-logs/ibm"
-  version           = "2.1.9"
+  version           = "2.1.10"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   plan              = "standard"
